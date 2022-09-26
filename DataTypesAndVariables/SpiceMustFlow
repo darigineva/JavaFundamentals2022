@@ -1,0 +1,26 @@
+package DataTypesVars;
+
+import java.util.Scanner;
+
+public class SpiceMustFlow {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int yield = Integer.parseInt(scanner.nextLine());
+
+        int dayCount = 0;
+        int production = 0;
+        while(yield >= 100){
+            dayCount++;
+            production += yield;
+            production -= 26;
+            yield -= 10;
+            if(yield < 100){
+                production -= 26;
+                break;
+            }
+        }
+        System.out.println(dayCount);
+        System.out.println(production);
+    }
+}
