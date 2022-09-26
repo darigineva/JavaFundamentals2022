@@ -1,0 +1,36 @@
+package Arrays;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class ArrayRotation {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+//        int[] arr = Arrays.stream(scanner.nextLine().split("\\s+")).mapToInt(Integer::parseInt).toArray();
+        List<Integer> list = Arrays.stream(scanner.nextLine().split("\\s+")).map(Integer::parseInt).collect(Collectors.toList());
+        int index = Integer.parseInt(scanner.nextLine());
+
+        for (int i = 0; i < index; i++) {
+            list.add(list.get(0));
+            list.remove(0);
+        }
+        for (int i = 0; i < list.size(); i++) {
+        System.out.print(list.get(i) + " ");
+        }
+
+//        int n = 0;        с масивче
+//
+//        for (int i = 0; i < index; i++) {
+//            n = arr[0];
+//            for (int j = 0; j < arr.length - 1; j++) {
+//            arr[j] = arr[j + 1];
+//            }
+//            arr[arr.length - 1] = n;
+//        }
+//        for (int i = 0; i < arr.length ; i++) {
+//            System.out.print(arr[i] + " ");
+//        }
+
+    }
+}
