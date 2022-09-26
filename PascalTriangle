@@ -1,0 +1,24 @@
+package Arrays;
+
+import java.util.Scanner;
+
+public class PascalTriangle {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = Integer.parseInt(scanner.nextLine());
+        int[][] pascalcho = new int[n][n];
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                if(j == 0 || i == j) {
+                    pascalcho[i][j] = 1;
+                }
+                else{
+                    pascalcho[i][j] = pascalcho[i - 1][j - 1] + pascalcho[i - 1][j];
+                }
+                System.out.print(pascalcho[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+}
