@@ -1,0 +1,31 @@
+package DataTypesVars;
+
+import java.util.Scanner;
+
+public class PokeMon {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int power = Integer.parseInt(scanner.nextLine());
+        int distance = Integer.parseInt(scanner.nextLine());
+        int exhaustion = Integer.parseInt(scanner.nextLine());
+        int halfPower = power / 2;
+        int countTarget = 0;
+//        power /= exhaustion;
+//        System.out.println(halfPower);
+//        IF N becomes equal to EXACTLY 50 % of its original value, you must divide N by Y,
+//        if it is POSSIBLE. This DIVISION is between integers
+        while(power >= distance) {
+
+            if(power == halfPower && exhaustion != 0){
+                power /= exhaustion;
+            }
+            if(power >= distance) {
+                power -= distance;
+                countTarget++;
+            }
+        }
+        System.out.println(power);
+        System.out.println(countTarget);
+    }
+}
