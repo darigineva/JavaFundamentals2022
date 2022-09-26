@@ -1,0 +1,38 @@
+package Arrays;
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class ZigZagArrays {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+//        4
+//        1 5
+//        9 10
+//        31 81
+//        41 20
+
+        int n = Integer.parseInt(scanner.nextLine());
+        int[] zig = new int[n];
+        int[] zag = new int[n];
+        for (int i = 0; i < n; i++) {
+            int [] arr = Arrays.stream(scanner.nextLine().split("\\s+")).mapToInt(Integer::parseInt).toArray();
+            if(i % 2 != 0){
+                zig[i] = arr[0];
+                zag[i] = arr[1];
+            } else {
+                zig[i] = arr[1];
+                zag[i] = arr[0];
+            }
+        }
+        for (int i = 0; i < n ; i++) {
+        System.out.print(zag[i] + " ");
+        }
+        System.out.println();
+        for (int i = 0; i < n ; i++) {
+        System.out.print(zig[i] + " ");
+        }
+
+    }
+}
