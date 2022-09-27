@@ -1,0 +1,151 @@
+package Lists;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class ArrayManipulator {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        List<Integer> numbers = Arrays.stream(scanner.nextLine().split("\\s+")).map(Integer::parseInt)
+                .collect(Collectors.toList());
+
+        String[] commands = scanner.nextLine().split("\\s+");
+
+        while(!commands[0].equals("end")){
+            if(commands[0].equals("exchange")){
+                int index = Integer.parseInt(commands[1]);
+                if(index < 0 || index >= numbers.size()){
+                    System.out.println("Invalid index");
+                } else {
+//                1 2 3    4 5
+//                4 5 1 2 3
+                    for (int i = 0; i <= index; i++) {
+                        numbers.add(numbers.get(0));
+                        numbers.remove(0);
+                    }
+                }
+            } else if(commands[0].equals("max")){
+                int max = Integer.MIN_VALUE;
+                int bestIndex = -1;
+                if(commands[1].equals("odd")){
+                    for (int i = 0; i < numbers.size(); i++) {
+                        if(numbers.get(i) % 2 != 0 && numbers.get(i) >= max){
+                            max = numbers.get(i);
+                            bestIndex = i;
+                        }
+                    }
+                    if(bestIndex == -1){
+                        System.out.println("No matches");
+                    } else {
+                        System.out.println(bestIndex);
+                    }
+                } else{
+                    for (int i = 0; i < numbers.size(); i++) {
+                        if(numbers.get(i) % 2 == 0 && numbers.get(i) >= max){
+                            max = numbers.get(i);
+                            bestIndex = i;
+                        }
+                    }
+                    if(bestIndex == -1){
+                        System.out.println("No matches");
+                    } else {
+                        System.out.println(bestIndex);
+                    }
+                }
+            } else if(commands[0].equals("min")){
+                int min = Integer.MAX_VALUE;
+                int bestIndex = -1;
+                if(commands[1].equals("odd")){
+                    for (int i = 0; i < numbers.size(); i++) {
+                        if(numbers.get(i) % 2 != 0 && numbers.get(i) <= min){
+                            min = numbers.get(i);
+                            bestIndex = i;
+                        }
+                    }
+                    if(bestIndex == -1){
+                        System.out.println("No matches");
+                    } else {
+                        System.out.println(bestIndex);
+                    }
+                } else{
+                    for (int i = 0; i < numbers.size(); i++) {
+                        if(numbers.get(i) % 2 == 0 && numbers.get(i) <= min){
+                            min = numbers.get(i);
+                            bestIndex = i;
+                        }
+                    }
+                    if(bestIndex == -1){
+                        System.out.println("No matches");
+                    } else {
+                        System.out.println(bestIndex);
+                    }
+                }
+            } else if(commands[0].equals("first")){
+                int count = Integer.parseInt(commands[1]);
+                if(count > numbers.size()){
+                    System.out.println("Invalid count");
+                } else {
+                    if (commands[2].equals("odd")) {
+                        List<Integer> first = new ArrayList<>();
+                        for (int i = 0; i < numbers.size(); i++) {
+                            if(numbers.get(i) % 2 != 0){
+                                first.add(numbers.get(i));
+                            }
+                        }
+                        if (first.size() > count){
+                            System.out.println(first.subList(0, count));
+                        } else {
+                        System.out.println(first);
+                        }
+                    } else {
+                        List<Integer> first = new ArrayList<>();
+                        for (int i = 0; i < numbers.size(); i++) {
+                            if(numbers.get(i) % 2 == 0){
+                                first.add(numbers.get(i));
+                            }
+                        }
+                        if (first.size() > count){
+                            System.out.println(first.subList(0, count));
+                        } else {
+                            System.out.println(first);
+                        }
+                    }
+                }
+            } else if(commands[0].equals("last")){
+                int count = Integer.parseInt(commands[1]);
+                if(count > numbers.size()){
+                    System.out.println("Invalid count");
+                } else {
+                    if (commands[2].equals("odd")) {
+                        List<Integer> last = new ArrayList<>();
+                        for (int i = 0; i < numbers.size(); i++) {
+                            if(numbers.get(i) % 2 != 0){
+                                last.add(numbers.get(i));
+                            }
+                        }
+                        if (last.size() > count){
+                            System.out.println(last.subList(last.size() - count, last.size()));
+                        } else {
+                            System.out.println(last);
+                        }
+                    } else {
+                        List<Integer> last = new ArrayList<>();
+                        for (int i = 0; i < numbers.size(); i++) {
+                            if(numbers.get(i) % 2 == 0){
+                                last.add(numbers.get(i));
+                            }
+                        }
+                        if (last.size() > count){
+                            System.out.println(last.subList(last.size() - count, last.size()));
+                        } else {
+                            System.out.println(last);
+                        }
+                    }
+                }
+            }
+            commands = scanner.nextLine().split("\\s+");
+        }
+        System.out.println(numbers);
+    }
+}
