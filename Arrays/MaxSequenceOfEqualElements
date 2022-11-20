@@ -1,0 +1,36 @@
+package Arrays;
+
+import java.util.*;
+
+public class MaxSequenceOfEqualElements {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int[] arr = Arrays.stream(scanner.nextLine().split("\\s+")).mapToInt(Integer::parseInt).toArray();
+        int length = 1;
+        int element = arr[0];
+        int longestLength = 1;
+        if(arr.length == 1){
+            System.out.println(arr[0]);
+            return;
+        }
+        for (int i = 0; i < arr.length - 1; i++) {
+            if(arr[i] == arr[i + 1]){
+                length++;
+            }
+            else{
+                if(length > longestLength){
+                    longestLength = length;
+                    element = arr[i - 1];
+                }
+                length = 1;
+            }
+        }
+        if(length > longestLength){
+            longestLength = length;
+            element = arr[arr.length - 1];
+        }
+        for (int i = 0; i < longestLength; i++) {
+            System.out.print(element + " ");
+        }
+    }
+}
