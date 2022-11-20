@@ -1,0 +1,60 @@
+package Lists;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+import java.util.stream.Collectors;
+
+public class TakeSkipRope {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        List<String> text = Arrays.stream(scanner.nextLine().split("")).collect(Collectors.toList());
+        List<Integer> numbers = new ArrayList<>();
+        List<Integer> takeList = new ArrayList<>();
+        List<Integer> skipList = new ArrayList<>();
+        List<String> outputList = new ArrayList<>();
+
+        for (int i = 0; i < text.size(); i++) {
+            if(text.get(i).equals("0") || text.get(i).equals("1") || text.get(i).equals("2") || text.get(i).equals("3") || text.get(i).equals("4")
+                    || text.get(i).equals("5") || text.get(i).equals("6") || text.get(i).equals("7") || text.get(i).equals("8") || text.get(i).equals("9")) {
+                numbers.add(Integer.parseInt(text.get(i)));
+                text.remove(i);
+                i--;
+            }
+
+        }
+        for (int i = 0; i < numbers.size(); i++) {
+            if(i % 2 == 0){
+                takeList.add(numbers.get(i));
+            } else {
+                skipList.add(numbers.get(i));
+
+            }
+        }
+            for (int i = 0; i < takeList.size(); i++) {
+                if(takeList.get(i) > text.size()) {
+                    takeList.set(i, text.size());
+                }
+                    for (int j = 0; j < takeList.get(i); j++) {
+                        outputList.add(text.get(0));
+                        text.remove(0);
+                    }
+                    if(text.isEmpty()){
+                        break;
+                    }
+                if(skipList.get(i) > text.size()) {
+                    skipList.set(i, text.size());
+                }
+                for (int j = 0; j < skipList.get(i); j++) {
+                    text.remove(0);
+                }
+                if(text.isEmpty()){
+                    break;
+                }
+
+            }
+        System.out.println(String.join("", outputList));
+    }
+}
