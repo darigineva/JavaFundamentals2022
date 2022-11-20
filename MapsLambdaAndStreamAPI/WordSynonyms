@@ -1,0 +1,26 @@
+package MapsLambdaAndStreamAPI;
+
+import java.util.*;
+
+public class WordSynonyms {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int n = Integer.parseInt(scanner.nextLine());
+
+        LinkedHashMap<String, List<String>> linkedWords = new LinkedHashMap<>();
+        String key;
+        String value;
+
+        for (int i = 0; i < n; i++) {
+            key = scanner.nextLine();
+            value = scanner.nextLine();
+            linkedWords.putIfAbsent(key, new ArrayList<>());
+            linkedWords.get(key).add(value);
+        }
+        for (Map.Entry<String, List<String>> entry : linkedWords.entrySet()) {
+            System.out.println(entry.getKey() + " - " + String.join(", ",entry.getValue()));
+        }
+
+    }
+}
