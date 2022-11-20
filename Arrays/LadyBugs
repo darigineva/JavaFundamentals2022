@@ -1,0 +1,60 @@
+package Arrays;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+
+public class LadyDeBug {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int fieldSize = Integer.parseInt(scanner.nextLine());
+        int[] indexes = Arrays.stream(scanner.nextLine().split("\\s+")).mapToInt(Integer::parseInt).toArray();
+        int[] ladybugs = new int[fieldSize];
+
+        for (int i = 0; i < indexes.length; i++) {
+            if(indexes[i] >= 0 && indexes[i] < fieldSize) {
+                ladybugs[indexes[i]] = 1;
+            }
+        }
+        for (int i = 0; i < ladybugs.length ; i++) {
+            if(ladybugs[i] != 1){
+                ladybugs[i] = 0;
+            }
+        }
+        String[] commands = scanner.nextLine().split("\\s+");
+        while (!commands[0].equals("end")){
+            if(Integer.parseInt(commands[0]) >= 0 && Integer.parseInt(commands[0]) < fieldSize
+                    && ladybugs[Integer.parseInt(commands[0])] == 1){
+                                ladybugs[Integer.parseInt(commands[0])] = 0;
+                if (Integer.parseInt(commands[0]) + Integer.parseInt(commands[2]) < fieldSize
+                        && Integer.parseInt(commands[0]) + Integer.parseInt(commands[2]) >= 0
+                        && commands[1].equals("right")){
+                        for (int i = Integer.parseInt(commands[0]) + Integer.parseInt(commands[2]);
+                             i < fieldSize; i += Integer.parseInt(commands[2])){
+
+                            if(ladybugs[i] == 0) {
+                                ladybugs[i] = 1;
+                                break;
+                            }
+                        }
+                } else if(Integer.parseInt(commands[0]) - Integer.parseInt(commands[2]) >= 0
+                        && Integer.parseInt(commands[0]) - Integer.parseInt(commands[2]) < fieldSize
+                        && commands[1].equals("left")){
+                    for (int i = Integer.parseInt(commands[0]) - Integer.parseInt(commands[2]); i >= 0 ;
+                         i -= Integer.parseInt(commands[2])) {
+                        if(ladybugs[i] == 0) {
+                            ladybugs[i] = 1;
+                            break;
+                        }
+                    }
+                }
+            }
+            commands = scanner.nextLine().split("\\s+");
+        }
+        for (int i = 0; i < ladybugs.length; i++) {
+            System.out.print(ladybugs[i] + " ");
+        }
+    }
+}
