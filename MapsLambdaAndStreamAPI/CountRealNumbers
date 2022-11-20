@@ -1,0 +1,27 @@
+package MapsLambdaAndStreamAPI;
+
+import java.text.DecimalFormat;
+import java.util.*;
+
+public class CountRealNumbers {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        double[] realNumbers = Arrays.stream(sc.nextLine().split("\\s+")).mapToDouble(Double::parseDouble).toArray();
+
+        TreeMap<Double, Integer> mapNumbers = new TreeMap<>();
+
+        for (double number : realNumbers){
+            if(mapNumbers.containsKey(number)){
+                int value = mapNumbers.get(number);
+                mapNumbers.put(number, value + 1 );
+            } else  {
+                mapNumbers.put(number, 1);
+            }
+        }
+        for (Map.Entry<Double, Integer> entry : mapNumbers.entrySet()) {
+            DecimalFormat decFormat = new DecimalFormat("#.#####");
+            System.out.println(decFormat.format(entry.getKey()) + " -> " + entry.getValue());
+        }
+    }
+}
