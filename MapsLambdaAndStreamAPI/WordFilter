@@ -1,0 +1,16 @@
+package MapsLambdaAndStreamAPI;
+
+import java.util.Scanner;
+
+public class WordFilter {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        String[] inputArr = scanner.nextLine().split(" ");
+        for (int i = 0; i < inputArr.length; i++) {
+            if(inputArr[i].length() % 2 == 0){
+                System.out.println(inputArr[i]);
+            }
+        }
+    }
+}
