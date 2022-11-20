@@ -1,0 +1,25 @@
+package MapsLambdaAndStreamAPI;
+
+import java.util.*;
+
+public class CountCharsInAString {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        String input = scanner.nextLine().replaceAll(" " , "");
+
+        Map<Character, Integer> symbolList = new LinkedHashMap<>();
+
+        for(char symbol : input.toCharArray()){
+            if(symbol == ' '){
+                continue;
+            }
+            symbolList.putIfAbsent(symbol, 0);
+            symbolList.put(symbol, symbolList.get(symbol) + 1);
+            /// get взема стойността срещу даден ключ
+        }
+        for (Map.Entry<Character, Integer> entry : symbolList.entrySet()) {
+            System.out.println(entry.getKey() + " -> " + entry.getValue());
+        }
+    }
+}
