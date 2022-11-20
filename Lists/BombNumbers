@@ -1,0 +1,39 @@
+package Lists;
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class BombNumbers {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        List<Integer> numbers = Arrays.stream(scanner.nextLine().split("\\s+")).map(Integer::parseInt).collect(Collectors.toList());
+        int[] data = Arrays.stream(scanner.nextLine().split("\\s+")).mapToInt(Integer::parseInt).toArray();
+        int bomb = data[0];
+        int power = data[1];
+//        int bomb = Integer.parseInt(scanner.next());
+//        int power = Integer.parseInt(scanner.next());
+        int sum = 0;
+        int index = 0;
+        for (int i = 0; i < numbers.size(); i++) {
+            if(numbers.get(i) == bomb){
+                index = i;
+                detonation(numbers, index, power);
+                i = -1;
+            }
+        }
+
+        for (int i = 0; i < numbers.size(); i++) {
+            sum += numbers.get(i);
+        }
+        System.out.println(sum);
+    }
+
+    private static void detonation(List<Integer> numbers, int index, int power) {
+        int left = Math.max(0, index - power);
+        int right = Math.min( index + power, numbers.size() - 1);
+        for (int i = right; i >= left; i--) {
+            numbers.remove(i);
+
+        }
+    }
+}
