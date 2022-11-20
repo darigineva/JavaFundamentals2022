@@ -1,0 +1,40 @@
+package FundamentalsFinalExam;
+
+import java.math.BigInteger;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class EmojiDetector {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        String text = scanner.nextLine();
+        Pattern emoji = Pattern.compile("([*:])\\1[A-Z][a-z]{2,}\\1\\1");
+        Pattern number = Pattern.compile("\\d");
+        Matcher emojiMatch = emoji.matcher(text);
+        Matcher numberMatch = number.matcher(text);
+        long threshold = 1;
+        BigInteger bigInt = new BigInteger(String.valueOf(threshold));
+        while(numberMatch.find()){
+            threshold *= Long.parseLong(numberMatch.group());
+        }
+        Map<String, Integer> emojiList = new LinkedHashMap<>();
+        int countEmoji = 0;
+        while (emojiMatch.find()){
+            int coolness = 0;
+            countEmoji++;
+            for (int i = 2; i < emojiMatch.group().length() - 2; i++) {
+            coolness += emojiMatch.group().charAt(i);
+            }
+            if(coolness > threshold) {
+                emojiList.put(emojiMatch.group(), coolness);
+            }
+        }
+        System.out.println("Cool threshold: " + threshold);
+        System.out.println(countEmoji + " emojis found in the text. The cool ones are:");
+        for (Map.Entry<String, Integer> entry : emojiList.entrySet()) {
+            System.out.println(entry.getKey());
+        }
+    }
+}
