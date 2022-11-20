@@ -1,0 +1,43 @@
+package RegularExpressions;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class SoftUniBarIncome {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+//        %George%<Croissant>|2|10.3$
+
+        String input = scanner.nextLine();
+            Pattern name = Pattern.compile("\\%[A-Z][a-z]+\\%");
+            Pattern product = Pattern.compile("\\<\\w+\\>");
+            Pattern quantity = Pattern.compile("\\|[0-9]+\\|");
+            Pattern price = Pattern.compile("\\d+\\.?\\d*\\$");
+            double totalSum = 0;
+        while (!input.equals("end of shift")){
+            Matcher validName = name.matcher(input);
+            Matcher validProduct = product.matcher(input);
+            Matcher validQuant = quantity.matcher(input);
+            Matcher validPrice = price.matcher(input);
+
+            if(validName.find() && validProduct.find() && validQuant.find() && validPrice.find() ){
+                            String k = validQuant.group().substring(1, validQuant.group().length() - 1);
+                            int q = Integer.parseInt(k);
+                            double calc = Double.parseDouble(validQuant.group().substring(1, validQuant.group().length() - 1))
+                                    * Double.parseDouble(validPrice.group().substring(0, validPrice.group().length() - 1));
+                            totalSum += calc;
+                            System.out.printf("%s: %s - %.2f\n"
+                                    , validName.group().replaceAll("%", "")
+                                    , validProduct.group().replace("<", "").replace(">", "")
+                                    , calc);
+            }
+            input = scanner.nextLine();
+        }
+        System.out.printf("Total income: %.2f", totalSum);
+    }
+}
