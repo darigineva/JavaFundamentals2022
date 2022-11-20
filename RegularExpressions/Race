@@ -1,0 +1,59 @@
+package RegularExpressions;
+
+import java.nio.file.Path;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+public class RaceD {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        String[] input = scanner.nextLine().split(", ");
+        Map<String, Integer> names = new LinkedHashMap<>();
+        for (int i = 0; i < input.length; i++) {
+            names.put(input[i], 0);
+        }
+        Pattern letter = Pattern.compile("[A-Za-z]");
+        Pattern digit = Pattern.compile("[0-9]");
+        String info = scanner.nextLine();
+        while (!info.equals("end of race")){
+
+                Matcher letterMatcher = letter.matcher(info);
+                Matcher digitMatcher = digit.matcher(info);
+                String name = "";
+                while (letterMatcher.find()){
+                    name = name + letterMatcher.group();
+                }
+
+                if (names.containsKey(name)){
+                    int km = 0;
+                    while (digitMatcher.find()){
+                        km += Integer.parseInt(digitMatcher.group());
+                    }
+                    names.put(name, names.get(name) + km);
+                }
+
+
+            info = scanner.nextLine();
+        }
+
+        Map<String, Integer> topThree =
+                names.entrySet().stream()
+                        .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                        .limit(3)
+                        .collect(Collectors.toMap(
+                                Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+        List<String> winners = new ArrayList<>();
+        for (Map.Entry<String, Integer> entry : topThree.entrySet()) {
+            winners.add(entry.getKey());
+        }
+
+        System.out.println("1st place: " + winners.get(0));
+        System.out.println("2nd place: " + winners.get(1) );
+        System.out.println("3rd place: " + winners.get(2));
+
+    }
+}
