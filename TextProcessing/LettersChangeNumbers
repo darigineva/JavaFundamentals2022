@@ -1,0 +1,38 @@
+package TextProcessing;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class LettersChangeNumbers {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        String[] input = scanner.nextLine().split("\\s+");
+        double result = 0;
+
+        for (int i = 0; i <input.length ; i++) {
+            char firstLetter = input[i].charAt(0);
+            char lastLetter = input[i].charAt(input[i].length() - 1);
+            double number = Double.parseDouble(input[i].substring(1, input[i].length() - 1));
+            if(firstLetter >= 'A' && firstLetter <= 'Z'){
+                int position = firstLetter - '@';
+//                int position = firstLetter - 64;
+                number /= position;
+            } else {
+                int position = firstLetter - '`';
+//                int position = firstLetter - 96;
+                number *= position;
+            }
+            if (lastLetter >= 'A' && lastLetter <= 'Z') {
+                int position = lastLetter - '@';
+                number -= position;
+            } else {
+                int position = lastLetter - '`';
+                number += position;
+            }
+            result += number;
+        }
+        System.out.printf("%.2f",result);
+    }
+}
