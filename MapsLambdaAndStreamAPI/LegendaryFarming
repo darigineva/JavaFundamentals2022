@@ -1,0 +1,66 @@
+package MapsLambdaAndStreamAPI;
+
+import java.util.*;
+
+public class LegendaryFarming {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        Map<String, Integer> materialList = new LinkedHashMap<>();
+        materialList.put("shards", 0);
+        materialList.put("fragments", 0);
+        materialList.put("motes", 0);
+        Map<String, Integer> junkList = new LinkedHashMap<>();
+
+        boolean win = false;
+        while (!win) {
+            String[] materialsLine = scanner.nextLine().split("\\s+");
+            for (int i = 0; i < materialsLine.length; i += 2) {
+                int materialsCount = Integer.parseInt(materialsLine[i]);
+                String material = materialsLine[i + 1].toLowerCase();
+                if (material.equals("shards") || material.equals("fragments") || material.equals("motes")) {
+                    materialList.put(material, materialList.get(material) + materialsCount);
+                } else {
+                    junkList.putIfAbsent(material, 0);
+                    junkList.put(material, junkList.get(material) + materialsCount);
+                }
+                if (materialList.get("shards") >= 250) {
+                    win = true;
+                    Shadowmourne();
+                    materialList.put("shards", materialList.get("shards") - 250);
+                    break;
+                } else if (materialList.get("fragments") >= 250) {
+                    win = true;
+                    Valanyr();
+                    materialList.put("fragments", materialList.get("fragments") - 250);
+                    break;
+                } else if (materialList.get("motes") >= 250) {
+                    win = true;
+                    Dragonwrath();
+                    materialList.put("motes", materialList.get("motes") - 250);
+                    break;
+                }
+
+            }
+
+        }
+        materialList.entrySet().forEach(entry -> System.out.println(entry.getKey() + ": " + entry.getValue()));
+//        for (Map.Entry<String, Integer> entry : materialList.entrySet()) {
+//            System.out.println(entry.getKey() + ": " + entry.getValue());
+//        }
+
+        junkList.entrySet().forEach(entry -> System.out.println(entry.getKey() + ": " + entry.getValue()));
+    }
+
+    private static void Dragonwrath() {
+        System.out.println("Dragonwrath obtained!");
+    }
+
+    private static void Valanyr() {
+        System.out.println("Valanyr obtained!");
+    }
+
+    private static void Shadowmourne() {
+        System.out.println("Shadowmourne obtained!");
+    }
+}
