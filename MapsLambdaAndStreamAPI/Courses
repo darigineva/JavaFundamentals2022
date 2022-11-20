@@ -1,0 +1,32 @@
+package MapsLambdaAndStreamAPI;
+
+import java.util.*;
+
+public class Courses {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Map<String, List<String>> courseList = new LinkedHashMap<String, List<String>>();
+
+        String input = scanner.nextLine();
+        while (!input.equals("end")){
+            String course = input.split(" : ")[0];
+            String studentName = input.split(" : ")[1];
+
+            if(courseList.containsKey(course)){
+            courseList.get(course).add(studentName);
+            } else{
+                List<String> studentList = new ArrayList<>();
+                studentList.add(studentName);
+                courseList.put(course, studentList);
+            }
+            input = scanner.nextLine();
+         }
+        for (Map.Entry<String, List<String>> entry : courseList.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue().size());
+            for (int i = 0; i < entry.getValue().size(); i++) {
+            System.out.println("-- " + entry.getValue().get(i));
+            }
+        }
+
+    }
+}
