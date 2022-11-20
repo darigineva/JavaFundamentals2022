@@ -1,0 +1,35 @@
+package TextProcessing;
+
+import java.util.Scanner;
+
+public class CharacterMultiplier {
+    public static void main(String[] args) {
+
+        Scanner scanner = new Scanner(System.in);
+
+        String[] input = scanner.nextLine().split("\\s+");
+
+        String firstWord = input[0];
+        String secondWord = input[1];
+        int sumNum = 0;
+
+        if(firstWord.length() > secondWord.length()){
+            for (int i = secondWord.length(); i < firstWord.length() ; i++) {
+                sumNum += firstWord.charAt(i);
+            }
+        } else if (secondWord.length() > firstWord.length()){
+            for (int i = firstWord.length(); i < secondWord.length() ; i++) {
+                sumNum += secondWord.charAt(i);
+            }
+        }
+        System.out.println(sum(firstWord, secondWord, 0) + sumNum);
+    }
+
+    private static int sum(String firstWord, String secondWord, int sumNum) {
+        for (int i = 0; i < Math.min(firstWord.length(), secondWord.length()) ; i++) {
+            sumNum += firstWord.charAt(i) * secondWord.charAt(i);
+        }
+       return sumNum;
+    }
+
+}
