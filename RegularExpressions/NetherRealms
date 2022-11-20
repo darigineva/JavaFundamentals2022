@@ -1,0 +1,52 @@
+package RegularExpressions;
+
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class NetherRealms {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        String input = scanner.nextLine();
+
+        Pattern nameCode = Pattern.compile("[^, ]+");
+        Pattern healthCode = Pattern.compile("[^\\+\\-\\*\\/\\.\\d]+");
+//        '+', '-', '*', '/') and delimiter dot ('.')) gives a demon's total health.
+        Pattern damageCode = Pattern.compile("[-+]?[0-9]+\\.?[0-9]*");
+            Matcher nameMatch = nameCode.matcher(input);
+            while (nameMatch.find()) {
+                String name = nameMatch.group();
+                int health = 0;
+                double damage = 0;
+                int countMultiply = 0;
+                int countDivide = 0;
+                for (int j = 0; j < name.length(); j++) {
+                    if (name.charAt(j) == '*') {
+                        countMultiply++;
+                    } else if (name.charAt(j) == '/') {
+                        countDivide++;
+                    }
+                }
+                Matcher healthMatch = healthCode.matcher(name);
+                Matcher damageMatch = damageCode.matcher(name);
+                StringBuilder healthSB = new StringBuilder();
+                while (healthMatch.find()) {
+                    healthSB.append(healthMatch.group());
+                }
+                while (damageMatch.find()) {
+                    damage += Double.parseDouble(damageMatch.group());
+                }
+                for (int j = 0; j < healthSB.length(); j++) {
+                    health += healthSB.charAt(j);
+                }
+                for (int j = 0; j < countMultiply; j++) {
+                    damage *= 2;
+                }
+                for (int j = 0; j < countDivide; j++) {
+                    damage /= 2;
+                }
+                System.out.printf("%s - %d health, %.2f damage\n", name, health, damage);
+            }
+    }
+}
