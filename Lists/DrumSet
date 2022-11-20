@@ -1,0 +1,43 @@
+package Lists;
+
+import java.text.DecimalFormat;
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class DrumSet {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        double savings = Double.parseDouble(scanner.nextLine());
+        List<Integer> drumSetOriginal = Arrays.stream(scanner.nextLine().split("\\s+")).map(Integer::parseInt).collect(Collectors.toList());
+        List<Integer> drumSetNew = new ArrayList<>();
+        for (int i = 0; i < drumSetOriginal.size(); i++) {
+            drumSetNew.add(drumSetOriginal.get(i));
+        }
+        String input = scanner.nextLine();
+        while (!input.equals("Hit it again, Gabsy!")){
+            int hitPower = Integer.parseInt(input);
+            for (int i = 0; i < drumSetNew.size(); i++) {
+                drumSetNew.set(i, drumSetNew.get(i) - hitPower);
+                if(drumSetNew.get(i) <= 0 && drumSetNew.get(i) > - 1000){
+                    if(savings >= drumSetOriginal.get(i) * 3) {
+                        drumSetNew.set(i, drumSetOriginal.get(i));
+                        savings -= drumSetOriginal.get(i) * 3;
+                    } else {
+                            drumSetNew.set(i, - 1000);
+                    }
+                }
+            }
+            input = scanner.nextLine();
+        }
+            for (int i = 0; i < drumSetNew.size(); i++) {
+                if (drumSetNew.get(i) > 0) {
+                    System.out.print(drumSetNew.get(i) + " ");
+                }
+        }
+        System.out.println();
+        DecimalFormat decimalFormat = new DecimalFormat("#0.00");
+        String formattedSavings = decimalFormat.format(savings);
+        System.out.println("Gabsy has " + formattedSavings + "lv.");
+    }
+}
