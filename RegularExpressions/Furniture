@@ -1,0 +1,33 @@
+package RegularExpressions;
+
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class FurnitureD {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        String input = scanner.nextLine();
+        List<String> products = new ArrayList<>();
+        double totalSpendMoney = 0;
+            Pattern pattern = Pattern.compile(">>(?<name>[A-Za-z]+)<<(?<price>[0-9]+\\.?[0-9]+)!(?<quantity>[0-9]+)");
+        while (!input.equals("Purchase")){
+//            Pattern pattern = Pattern.compile(">>(?<product>[A-z]+)<<(?<price>\\d+\\.?\\d+)!(?<count>\\d+)");
+            Matcher matcher = pattern.matcher(input);
+            if(matcher.find()){
+                products.add(matcher.group("name"));
+                totalSpendMoney += Double.parseDouble(matcher.group("price")) * Integer.parseInt(matcher.group("quantity"));
+            }
+
+            input = scanner.nextLine();
+        }
+        System.out.println("Bought furniture:");
+        if(!products.isEmpty()){
+        System.out.println(String.join("\n", products));}
+        System.out.println("Total money spend: " + new DecimalFormat("0.00").format(totalSpendMoney));
+    }
+}
