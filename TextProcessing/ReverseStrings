@@ -1,0 +1,17 @@
+package TextProcessing;
+
+import java.util.Scanner;
+
+public class ReverseStrings {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        String input = scanner.nextLine();
+        while (!input.equals("end")){
+        StringBuilder reversed = new StringBuilder();
+            reversed.append(input).reverse();
+            System.out.println(input + " = " + reversed);
+            input = scanner.nextLine();
+        }
+    }
+}
