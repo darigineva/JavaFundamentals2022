@@ -1,0 +1,36 @@
+package Arrays;
+
+import java.util.*;
+
+public class EncryptSortAndPrintArray {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int n = Integer.parseInt(scanner.nextLine());
+        int[] allSums = new int[n];
+        int sumMulty = 0;
+       int sumDivide = 0;
+        for (int i = 0; i < n; i++) {
+            String word = scanner.nextLine();
+            for (int j = 0; j < word.length(); j++) {
+                if(word.charAt(j) == 'A' || word.charAt(j) == 'a' || word.charAt(j) == 'E' || word.charAt(j) == 'e'
+                        || word.charAt(j) == 'U' || word.charAt(j) == 'u' || word.charAt(j) == 'O' || word.charAt(j) == 'o'
+                        || word.charAt(j) == 'I' || word.charAt(j) == 'i'){
+
+                    sumMulty += word.charAt(j);
+                } else {
+                    sumDivide += word.charAt(j) / word.length();
+                }
+            }
+
+                allSums[i] = sumMulty * word.length() + sumDivide;
+            sumMulty = 0;
+            sumDivide = 0;
+        }
+        Arrays.sort(allSums);
+        for (int i = 0; i < allSums.length; i++) {
+
+        System.out.println(allSums[i]);
+        }
+    }
+}
