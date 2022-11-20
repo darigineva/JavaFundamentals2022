@@ -1,0 +1,31 @@
+package TextProcessing;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+import java.util.stream.Collectors;
+
+public class ReplaceRepeatingChars {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        List<String> input = Arrays.stream(scanner.nextLine().split("")).map(String::valueOf).collect(Collectors.toList());
+
+        clearEqualChar(input, 0);
+        System.out.println(String.join("", input));
+    }
+
+    private static String clearEqualChar(List<String> input, int i) {
+        for (int j = 0; j < input.size() - 1; j++) {
+            String prev = input.get(j);
+            String last = input.get(j + 1);
+            if(prev.equals(last)){
+                input.remove(j + 1);
+                j--;
+            }
+        }
+        return input.toString();
+    }
+
+
+}
