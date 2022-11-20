@@ -1,0 +1,56 @@
+package TextProcessing;
+import java.util.*;
+
+public class MultiplyBigNumber {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        String biggy = sc.nextLine();
+        int mini = Integer.parseInt(sc.nextLine());
+        boolean isFirstNumberNagative = false;
+        boolean isSecondNumberNagative = false;
+
+        if (biggy.charAt(0) == '-') {
+            biggy = biggy.substring(1);
+            isFirstNumberNagative = true;
+        }
+        biggy = biggy.replaceAll("^0+(?!$)", "");
+
+        if (mini < 0) {
+            mini = Math.abs(mini);
+            isSecondNumberNagative = true;
+        }
+        if (mini != 0) {
+            String multiplication = multiplication(biggy, mini);
+            StringBuilder result = new StringBuilder(multiplication);
+
+            if (isFirstNumberNagative && !isSecondNumberNagative) {
+                result.append('-');
+            } else if (!isFirstNumberNagative && isSecondNumberNagative) {
+                result.append('-');
+            }
+            System.out.println(result.reverse());
+        } else {
+            System.out.println(0);
+        }
+
+    }
+        private static String multiplication (String biggy,int mini){
+            StringBuilder result = new StringBuilder();
+            int rest = 0;
+            for (int i = biggy.length() - 1; i >= 0; i--) {
+            int product = Integer.parseInt(biggy.charAt(i) + "") * mini + rest;
+                if(product >= 10){
+                    result.append(product %10);
+                    rest = product / 10;
+                } else  {
+                    result.append(product);
+                    rest = 0;
+                }
+            }
+            if (rest > 0)
+                result.append(rest);
+            return result.toString();
+        }
+
+}
