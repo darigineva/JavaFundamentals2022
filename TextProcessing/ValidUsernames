@@ -1,0 +1,36 @@
+package TextProcessing;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class ValidUsernames {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        String[] input = scanner.nextLine().split(", ");
+        List<String> validList = new ArrayList<>();
+
+        for (int i = 0; i < input.length; i++) {
+        boolean isValid = true;
+            for (int j = 0; j < input[i].length(); j++) {
+                if(input[i].charAt(j) >= '0' && input[i].charAt(j) <= '9' || input[i].charAt(j) == '-' || input[i].charAt(j) >= 'a' && input[i].charAt(j) <= 'z'
+                        || input[i].charAt(j) >= 'A' && input[i].charAt(j) <= 'Z' || input[i].charAt(j) == '_'){
+
+                } else {
+                    isValid = false;
+                    break;
+                }
+            }
+            if(isValid){
+                if(input[i].length() < 3 || input[i].length() > 16) {
+                    isValid = false;
+                }
+            }
+            if(isValid){
+                validList.add(input[i]);
+            }
+        }
+        System.out.println(String.join("\n", validList));
+    }
+}
