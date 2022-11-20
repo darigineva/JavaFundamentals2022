@@ -1,0 +1,25 @@
+package Arrays;
+
+import java.util.Scanner;
+
+public class CommonElements {
+    public static void main(String[] args) {
+        Scanner scanner  = new Scanner(System.in);
+
+        String things1 = scanner.nextLine();
+        String things2 = scanner.nextLine();
+
+        String[] str1 = null;
+        String[] str2 = null;
+        str1 = things1.split(" ");
+        str2 = things2.split(" ");
+
+        for (int i = 0; i < str2.length; i++) {
+            for (int j = 0; j < str1.length ; j++) {
+                if (str2[i].equals(str1[j])) {
+                    System.out.print(str2[i] + " " );
+                }
+            }
+        }
+    }
+}
