@@ -1,0 +1,57 @@
+package RegularExpressions;
+
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class StarEnigma {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Pattern pattern = Pattern.compile("[^@\\-!:>]*@(?<name>[A-Za-z]+)[^@\\-!:>]*:(?<population>[\\d]+)[^@\\-!:>]*" +
+                "!(?<type>[AD])![^@\\-!:>]*->(?<soldiers>\\d+)[^@\\-!:>]*$");
+//        Pattern pattern = Pattern.compile("\\@(?<name>[A-Z][a-z]+).*\\:(?<population>[0-9]+).*\\!(?<type>[AD]).*\\->(?<soldiers>[0-9]+)"); 80%
+        List<String> Ateam = new ArrayList<>();
+        List<String> Dteam = new ArrayList<>();
+        int n = Integer.parseInt(scanner.nextLine());
+        for (int i = 0; i < n; i++) {
+        int count = 0;
+//            PQ@Alderaa1:30000!A!->20000
+            String encryptedMSG = scanner.nextLine();
+            for (int j = 0; j < encryptedMSG.length(); j++) {
+                if(encryptedMSG.toLowerCase().charAt(j) == 's' || encryptedMSG.toLowerCase().charAt(j) == 't'
+                        || encryptedMSG.toLowerCase().charAt(j) == 'a' || encryptedMSG.toLowerCase().charAt(j) == 'r'){
+                    count++;
+                }}
+                for (int k = 0; k < encryptedMSG.length(); k++) {
+                    StringBuilder decrypted = new StringBuilder(encryptedMSG);
+                    decrypted.setCharAt(k, (char) (encryptedMSG.charAt(k) - count));
+                    encryptedMSG = decrypted + "";
+                }
+            Matcher matcher = pattern.matcher(encryptedMSG);
+            if(matcher.find()){
+                switch (matcher.group("type")){
+                        case "A":
+                            Ateam.add(matcher.group("name"));
+                            break;
+                        case "D":
+                            Dteam.add(matcher.group("name"));
+                            break;
+                    }
+                }
+        }
+        Collections.sort(Ateam);
+        Collections.sort(Dteam);
+        System.out.println("Attacked planets: " + Ateam.size());
+        if (!Ateam.isEmpty()){
+            for (int i = 0; i < Ateam.size() ; i++) {
+                System.out.println("-> " + Ateam.get(i));
+            }
+        }
+        System.out.println("Destroyed planets: " + Dteam.size());
+        if (!Dteam.isEmpty()){
+            for (int i = 0; i < Dteam.size() ; i++) {
+                System.out.println("-> " + Dteam.get(i));
+            }
+        }
+    }
+}
