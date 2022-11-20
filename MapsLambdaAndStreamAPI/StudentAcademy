@@ -1,0 +1,38 @@
+package MapsLambdaAndStreamAPI;
+
+import java.util.*;
+
+public class StudentAcademy {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        Map<String, List<Double>> studentsList = new LinkedHashMap<>();
+        Map<String, List<Double>> highestGradesStudents = new LinkedHashMap<>();
+        int n = Integer.parseInt(sc.nextLine());
+
+        for (int i = 0; i < n; i++) {
+            String name = sc.nextLine();
+            double grade = Double.parseDouble(sc.nextLine());
+
+            if(studentsList.containsKey(name)){
+                studentsList.get(name).add(grade);
+            } else {
+                List<Double> gradeList = new ArrayList<>();
+                gradeList.add(grade);
+                studentsList.put(name, gradeList);
+            }
+        }
+        for (Map.Entry<String, List<Double>> entry : studentsList.entrySet()) {
+            if(averageGrade(entry, entry.getValue()) >= 4.5){
+                highestGradesStudents.put(entry.getKey(), entry.getValue());
+            }
+        }
+        for (Map.Entry<String, List<Double>> entry : highestGradesStudents.entrySet()) {
+            System.out.println(String.format("%s -> %.2f", entry.getKey(), averageGrade(entry, entry.getValue())));
+        }
+    }
+
+    private static double averageGrade(Map.Entry<String, List<Double>> entry, List<Double> value) {
+        return entry.getValue().stream().mapToDouble(Double::doubleValue).average().getAsDouble();
+    }
+}
