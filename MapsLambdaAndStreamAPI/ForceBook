@@ -1,0 +1,57 @@
+package MapsLambdaAndStreamAPI;
+
+import java.util.*;
+
+public class ForceBook {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        String input = scanner.nextLine();
+//        String[] input = scanner.nextLine().split("[ | , -> ]");
+        List<String> userList = new ArrayList<>();
+        Map<String, List<String>> sidesMap = new LinkedHashMap<>();
+        while (!input.equals("Lumpawaroo")) {
+            if (input.contains("|")) {
+                boolean onAnySide = false;
+                String forceSide = input.split(" \\| ")[0];
+                String forceUser = input.split(" \\| ")[1];
+                for (Map.Entry<String, List<String>> entry : sidesMap.entrySet()) {
+                    if(entry.getValue().contains(forceUser)){
+                       onAnySide = true;
+                    }
+                }
+                if(!onAnySide) {
+                    addUsers(sidesMap, userList, forceUser, forceSide);
+                }
+            } else {
+                String forceUser = input.split(" -> ")[0];
+                String forceSide = input.split(" -> ")[1];
+
+                for (Map.Entry<String, List<String>> entry : sidesMap.entrySet()) {
+                            if(entry.getValue().contains(forceUser)){
+                                entry.getValue().remove(forceUser);
+                            }
+                }
+                   addUsers(sidesMap, userList, forceUser, forceSide);
+                System.out.println(forceUser + " joins the " + forceSide + " side!");
+            }
+            input = scanner.nextLine();
+        }
+        for (Map.Entry<String, List<String>> entry: sidesMap.entrySet()) {
+            if(entry.getValue().size() > 0) {
+                System.out.println("Side: " + entry.getKey() + ", Members: " + entry.getValue().size());
+                entry.getValue().forEach(user -> System.out.println("! " + user));
+            }
+        }
+    }
+
+    private static void addUsers(Map<String, List<String>> sidesMap, List<String> userList, String forceUser, String forceSide) {
+        if (!sidesMap.containsKey(forceSide)) {
+            userList = new ArrayList<>();
+            userList.add(forceUser);
+            sidesMap.put(forceSide, userList);
+        } else {
+            sidesMap.get(forceSide).add(forceUser);
+        }
+    }
+}
