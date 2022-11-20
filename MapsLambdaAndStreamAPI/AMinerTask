@@ -1,0 +1,28 @@
+package MapsLambdaAndStreamAPI;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class AMinerTask {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        String input = scanner.nextLine();
+//        int counter = 0;
+        Map<String, Integer> resourceCollection = new LinkedHashMap<>();
+        while (!input.equals("stop")){
+                String resource = input;
+                input = scanner.nextLine();
+                int quantity = Integer.parseInt(input);
+                resourceCollection.putIfAbsent(resource, 0);
+                resourceCollection.put(resource, resourceCollection.get(resource) + quantity);
+
+            input = scanner.nextLine();
+        }
+        for (Map.Entry<String, Integer> entry : resourceCollection.entrySet()) {
+            System.out.println(entry.getKey() + " -> " + entry.getValue());
+        }
+
+    }
+}
