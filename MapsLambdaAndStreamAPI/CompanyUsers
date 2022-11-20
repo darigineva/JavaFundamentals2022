@@ -1,0 +1,29 @@
+package MapsLambdaAndStreamAPI;
+
+import java.util.*;
+
+public class CompanyUsers {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        Map<String, List<String>> companyList = new LinkedHashMap<>();
+        String input;
+        while(!(input = scanner.nextLine()).equals("End")){
+            String company = input.split(" -> ")[0];
+            String employee = input.split(" -> ")[1];
+
+            if(companyList.containsKey(company)){
+                if(companyList.get(company).contains(employee)){
+                    continue;
+                }
+                companyList.get(company).add(employee);
+            } else {
+                List<String> employeeList = new ArrayList<>();
+                employeeList.add(employee);
+                companyList.put(company, employeeList);
+            }
+        }
+        companyList.entrySet().stream().forEach(company -> {System.out.println(company.getKey());
+                company.getValue().forEach(employee -> System.out.println("-- " + employee));});
+    }
+}
