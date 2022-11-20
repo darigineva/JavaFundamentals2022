@@ -1,0 +1,33 @@
+package MapsLambdaAndStreamAPI;
+
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class Orders {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        String input = scanner.nextLine();
+
+        Map<String, double[]> productList = new LinkedHashMap<>();
+        double[] priceTab = new double[2];
+        while (!input.equals("buy")){
+            String product = input.split(" ")[0];
+            double price = Double.parseDouble(input.split(" ")[1]);
+            int quantity = Integer.parseInt(input.split(" ")[2]);
+            priceTab = new double[]{price, quantity};
+            if(productList.containsKey(product)) {
+                priceTab[1] = quantity + productList.get(product)[1];
+            }
+                productList.put(product, priceTab);
+
+            input = scanner.nextLine();
+        }
+        for (Map.Entry<String, double[]> entry : productList.entrySet()) {
+        double totalPrice = entry.getValue()[0] * entry.getValue()[1];
+            System.out.println(String.format("%s -> %.2f", entry.getKey(), totalPrice));
+        }
+    }
+}
