@@ -1,0 +1,52 @@
+package MapsLambdaAndStreamAPI;
+
+import java.util.*;
+
+public class Ranking {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Map<String, String> validContest = new LinkedHashMap<>();
+        Map<String, Map<String, Integer>> candidateList = new TreeMap<>();
+        Map<String, Integer> bestCandidate = new HashMap<>();
+
+        String[] input = scanner.nextLine().split(":");
+        while (!input[0].equals("end of contests")) {
+            validContest.put(input[0], input[1]);
+            input = scanner.nextLine().split(":");
+        }
+        String[] data = scanner.nextLine().split("=>");
+        while (!data[0].equals("end of submissions")) {
+            if (validContest.containsKey(data[0]) && data[1].equals(validContest.get(data[0]))) {
+                String exam = data[0];
+                String name = data[2];
+                int points = Integer.parseInt(data[3]);
+                candidateList.putIfAbsent(name, new HashMap<>());
+                    candidateList.get(name).putIfAbsent(exam, points);
+                    candidateList.get(name).put(exam, Math.max(points, candidateList.get(name).get(exam)));
+//                    C# Fundamentals=>fundPass=>Tanya=>350
+            }
+            data = scanner.nextLine().split("=>");
+            }
+
+        for (Map.Entry<String, Map<String, Integer>> entry : candidateList.entrySet()) {
+            int points = 0;
+            for (Map.Entry<String, Integer> entry1 : entry.getValue().entrySet()) {
+                points += entry1.getValue();
+            }
+            bestCandidate.put(entry.getKey(), points);
+        }
+
+        bestCandidate.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).limit(1)
+                .forEach(entry -> System.out.printf("Best candidate is %s with total %d points.\n", entry.getKey(), entry.getValue()));
+
+        System.out.println("Ranking: ");
+
+        for (Map.Entry<String, Map<String, Integer>> entry : candidateList.entrySet()) {
+            System.out.println(entry.getKey());
+            entry.getValue().entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).
+                    forEach(entry1 -> System.out.println("#  " + entry1.getKey() + " -> " + entry1.getValue()));
+        }
+
+    }
+
+}
