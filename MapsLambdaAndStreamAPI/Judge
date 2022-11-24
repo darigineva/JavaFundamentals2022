@@ -1,0 +1,57 @@
+package MapsLambdaAndStreamAPI;
+
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+public class Judge {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        Map<String, Integer> individualStandings = new HashMap<>();
+        Map<String, Map<String, Integer>> contestMap = new LinkedHashMap<>();
+
+        String[] input = scanner.nextLine().split(" -> ");
+        while (!input[0].equals("no more time")) {
+            String contest = input[1];
+            String name = input[0];
+            int points = Integer.parseInt(input[2]);
+            contestMap.putIfAbsent(contest, new HashMap<>());
+            contestMap.get(contest).putIfAbsent(name, 0);
+            individualStandings.putIfAbsent(name, 0);
+            if(contestMap.get(contest).get(name) <= points) {
+                individualStandings.put(name, individualStandings.get(name) - contestMap.get(contest).get(name));
+                contestMap.get(contest).put(name, points);
+                individualStandings.put(name, individualStandings.get(name) + points);
+            }
+
+            input = scanner.nextLine().split(" -> ");
+        }
+        for (Map.Entry<String, Map<String, Integer>> entry : contestMap.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue().size() + " participants");
+            int index = 0;
+            Map<String, Integer> sorted =
+                    entry.getValue().entrySet().stream()
+                            .sorted(Map.Entry.comparingByKey())
+                            .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                            .collect(Collectors.toMap(
+                                    Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+            for (Map.Entry<String, Integer> enrty1 : sorted.entrySet()) {
+                index++;
+                System.out.println(index + ". " + enrty1.getKey() + " <::> " + enrty1.getValue());
+            }
+        }
+        System.out.println("Individual standings: ");
+            int index = 0;
+        Map<String, Integer> sorted =
+                individualStandings.entrySet().stream()
+                        .sorted(Map.Entry.comparingByKey())
+                        .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                        .collect(Collectors.toMap(
+                                Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+        for (Map.Entry<String, Integer> entry : sorted.entrySet()) {
+            index++;
+            System.out.printf("%d. %s -> %d\n", index, entry.getKey(), entry.getValue());
+        }
+    }
+}
