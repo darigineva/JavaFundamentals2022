@@ -1,0 +1,29 @@
+package TextProcessing;
+
+import java.util.Arrays;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class TreasureFinder {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int[] numbers = Arrays.stream(scanner.nextLine().split("\\s+")).mapToInt(Integer::parseInt).toArray();
+        String text = scanner.nextLine();
+        Pattern type = Pattern.compile("&(?<type>[A-Za-z]+)&");
+        Pattern coordinates = Pattern.compile("<(?<coord>\\w+)>");
+        while (!text.equals("find")){
+        StringBuilder output = new StringBuilder();
+            for (int i = 0; i < text.length(); i++) {
+                output.append(Character.valueOf((char) (text.charAt(i) - numbers[i % numbers.length])));
+            }
+            Matcher validType = type.matcher(output);
+            Matcher validCoordinates = coordinates.matcher(output);
+            if(validCoordinates.find() && validType.find()){
+                System.out.println("Found " + validType.group("type") + " at " +  validCoordinates.group("coord"));
+            }
+            text = scanner.nextLine();
+        }
+    }
+}
