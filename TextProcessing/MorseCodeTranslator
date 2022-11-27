@@ -1,0 +1,28 @@
+package TextProcessing;
+
+import java.util.Locale;
+import java.util.Scanner;
+
+public class MorseCodeTranslator {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        String[] morseCode = scanner.nextLine().split(" \\| ");
+        String[] alphabetLetters = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
+        String[] code = {".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--","-.","---",
+                ".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--","--.."};
+        StringBuilder translation = new StringBuilder();
+        for (int i = 0; i < morseCode.length ; i++) {
+            String[] codeSplit = morseCode[i].split(" ");
+            for (int j = 0; j < codeSplit.length; j++){
+                for (int k = 0; k < code.length; k++) {
+                    if (codeSplit[j].equals(code[k])) {
+                        translation.append(alphabetLetters[k].toUpperCase(Locale.ROOT));
+                        break;
+                    }
+                }
+             } translation.append(" ");
+        }
+        System.out.println(translation);
+    }
+}
