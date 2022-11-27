@@ -1,0 +1,72 @@
+package MapsLambdaAndStreamAPI;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class DragonArmy {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        Map<String, Map<String, int[]>> typeNameDamageHealthArmor = new LinkedHashMap<>();
+        int n = Integer.parseInt(scanner.nextLine());
+
+        for (int i = 0; i < n; i++) {
+            String[] input = scanner.nextLine().split("\\s+");
+            String type = input[0]; String name = input[1];
+            int damage = 0; int health = 0; int armor = 0;
+            if(!input[2].equals("null")){
+                 damage = Integer.parseInt(input[2]);
+            } else {
+                damage = 45;
+            }
+            if(!input[3].equals("null")){
+                health = Integer.parseInt(input[3]);
+            } else {
+                health = 250;
+            }
+
+            if(!input[4].equals("null")){
+                armor = Integer.parseInt(input[4]);
+            } else {
+                armor = 10;
+            }
+            typeNameDamageHealthArmor.putIfAbsent(type, new LinkedHashMap<>());
+            typeNameDamageHealthArmor.get(type).putIfAbsent(name, new int[3]);
+            int[] status = new int[]{damage, health, armor};
+            typeNameDamageHealthArmor.get(type).put(name, status);
+        }
+//        -Bazgargal  -> damage: 100, health: 2500, armor: 25
+            Map<String, List<StringBuilder>> colorMap = new LinkedHashMap<>();
+        List<Double> average = new ArrayList<>();
+        for (Map.Entry<String, Map<String, int[]>> entry : typeNameDamageHealthArmor.entrySet()) {
+            List<StringBuilder> outputInfo = new ArrayList<>();
+            double averageDamage = 0; double averageHealth = 0; double averageArmor = 0;
+            double damageSum = 0; double healthSum = 0; double armorSum = 0;
+            for (Map.Entry<String, int[]> statusEntry : entry.getValue().entrySet()) {
+            StringBuilder dragon = new StringBuilder();
+                dragon.append("-").append(statusEntry.getKey()).append(" -> damage: ").append(statusEntry.getValue()[0]).append(", health: ")
+                        .append(statusEntry.getValue()[1]).append(", armor: ").append(statusEntry.getValue()[2]);
+                outputInfo.add(dragon);
+                damageSum += statusEntry.getValue()[0]; healthSum += statusEntry.getValue()[1]; armorSum += statusEntry.getValue()[2];
+            }
+            Collections.sort(outputInfo, new Comparator<StringBuilder>() {
+                @Override
+                public int compare(StringBuilder o1, StringBuilder o2) {
+                    return (o1).compareTo(o2);
+                }
+            });
+            colorMap.put(entry.getKey(), outputInfo);
+            averageDamage = damageSum / entry.getValue().size();
+            averageHealth = healthSum / entry.getValue().size();
+            averageArmor = armorSum / entry.getValue().size();
+            average.add(averageDamage); average.add(averageHealth); average.add(averageArmor);
+        }
+            int index = 0;
+        for (Map.Entry<String, List<StringBuilder>> entry : colorMap.entrySet()) {
+            System.out.printf("%s::(%.2f/%.2f/%.2f)\n", entry.getKey(),  average.get(index + 0), average.get(index + 1), average.get(index + 2));
+            System.out.println(String.join("\n", entry.getValue()));
+            index +=3;
+        }
+    }
+}
+
