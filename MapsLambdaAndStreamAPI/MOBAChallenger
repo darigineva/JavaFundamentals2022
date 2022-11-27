@@ -1,0 +1,75 @@
+package MapsLambdaAndStreamAPI;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class MOBAChallenger {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        Map<String, Integer> totalSkillMap = new HashMap<>();
+        Map<String, Map<String, Integer>> positionsMap = new HashMap<>();
+        Map<String, List<String>> positionList = new HashMap<>();
+        String[] input = scanner.nextLine().split("\\s+");
+        while (!input[0].equals("Season")){
+            if(input.length == 3){
+                String player1 = input[0];
+                String player2 = input[2];
+                if(positionsMap.containsKey(player1) && positionsMap.containsKey(player2)) {
+                    for (int i = 0; i < positionList.get(player2).size(); i++) {
+                    if(positionList.get(player1).contains(positionList.get(player2).get(i))){
+                        if(totalSkillMap.get(player1) > totalSkillMap.get(player2)){
+                            totalSkillMap.remove(player2);
+                            positionsMap.remove(player2);
+                            positionList.remove(player2);
+                        } else if(totalSkillMap.get(player1) < totalSkillMap.get(player2)){
+                            totalSkillMap.remove(player1);
+                            positionsMap.remove(player1);
+                            positionList.remove(player1);
+                        }
+                        break;
+                    }
+                    }
+                }
+            } else {
+                String name = input[0];
+                String position = input[2];
+                int skill = Integer.parseInt(input[4]);
+
+                positionsMap.putIfAbsent(name, new HashMap<>());
+                positionsMap.get(name).putIfAbsent(position, 0);
+                positionsMap.get(name).put(position, Math.max(skill, positionsMap.get(name).get(position)));
+                positionList.putIfAbsent(name, new ArrayList<>());
+                positionList.get(name).add(position);
+                int totalSkill = 0;
+                for (Map.Entry<String, Integer> entry : positionsMap.get(name).entrySet()) {
+                   totalSkill += entry.getValue();
+                }
+                totalSkillMap.put(name, totalSkill);
+            }
+            input = scanner.nextLine().split("\\s+");
+        }
+
+        Map<String, Integer> sortedByTotalSkill =
+                totalSkillMap.entrySet().stream()
+                        .sorted(Map.Entry.comparingByKey())
+                        .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                        .collect(Collectors.toMap(
+                                Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+
+        for (Map.Entry<String, Integer> entry : sortedByTotalSkill.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue() + " skill");
+
+            Map<String, Integer> sortedByEachPositionSkill =
+                    positionsMap.get(entry.getKey()).entrySet().stream()
+                            .sorted(Map.Entry.comparingByKey())
+                            .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                            .collect(Collectors.toMap(
+                                    Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+
+            for (Map.Entry<String, Integer> entry1 : sortedByEachPositionSkill.entrySet()) {
+                System.out.println("- " + entry1.getKey() + " <::> " + entry1.getValue());
+            }
+        }
+    }
+}
