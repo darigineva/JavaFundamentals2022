@@ -1,0 +1,19 @@
+package RegularExpressions;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class ExtractEmails {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        String text = scanner.nextLine();
+        Pattern email = Pattern.compile("[\\-\\w\\.]+@([\\-\\w]+\\.)+[\\-\\w]+");
+        Matcher valid = email.matcher(text);
+        while (valid.find()){
+            System.out.println(valid.group());
+        }
+    }
+
+    }
