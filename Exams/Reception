@@ -1,0 +1,27 @@
+package FundamentalsExam;
+
+import java.util.Scanner;
+
+public class Reception {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int E1perHour = Integer.parseInt(scanner.nextLine());
+        int E2perHour = Integer.parseInt(scanner.nextLine());
+        int E3perHour = Integer.parseInt(scanner.nextLine());
+        int students = Integer.parseInt(scanner.nextLine());
+        int hourOfWork = 0;
+        int countHour = 0;
+        while(students > 0){
+            hourOfWork++;
+            if(hourOfWork % 4 == 0){
+                countHour++;
+            }
+            else{
+            students -= E1perHour + E2perHour + E3perHour;
+            countHour++;
+            }
+        }
+        System.out.println("Time needed: " + (countHour) + "h.");
+    }
+}
