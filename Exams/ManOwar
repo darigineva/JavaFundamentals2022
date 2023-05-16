@@ -1,0 +1,76 @@
+package FundamentalsMidExam;
+
+import java.util.*;
+
+public class ManOwar {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int[] pirateShip = Arrays.stream(scanner.nextLine().split("\\>")).mapToInt(Integer::parseInt).toArray();
+        int[] warShip = Arrays.stream(scanner.nextLine().split("\\>")).mapToInt(Integer::parseInt).toArray();
+        int maxHealthCapacity = Integer.parseInt(scanner.nextLine());
+        String[] commands = scanner.nextLine().split("\\s+");
+
+        while (!commands[0].equals("Retire")){
+            switch (commands[0]) {
+                case "Fire":
+                    if (Integer.parseInt(commands[1]) >= 0 && Integer.parseInt(commands[1]) < warShip.length) {
+                        warShip[Integer.parseInt(commands[1])] -= Integer.parseInt(commands[2]);
+                    if (warShip[Integer.parseInt(commands[1])] <= 0) {
+                        System.out.println("You won! The enemy ship has sunken.");
+                        return;
+                      }
+                    }
+                    break;
+                case "Defend":
+                    if(Integer.parseInt(commands[1]) >= 0 && Integer.parseInt(commands[1]) < pirateShip.length
+                    && Integer.parseInt(commands[2]) >= 0 && Integer.parseInt(commands[2]) < pirateShip.length ){
+                        for (int i = Integer.parseInt(commands[1]); i <= Integer.parseInt(commands[2]) ; i++) {
+                            pirateShip[i] -= Integer.parseInt(commands[3]);
+                            if(pirateShip[i] <= 0){
+                                System.out.println("You lost! The pirate ship has sunken.");
+                                return;
+                            }
+                        }
+                    }
+                    break;
+                case "Repair":
+                    if(Integer.parseInt(commands[1]) >= 0 && Integer.parseInt(commands[1]) < pirateShip.length){
+                        pirateShip[Integer.parseInt(commands[1])] += Integer.parseInt(commands[2]);
+                        if(pirateShip[Integer.parseInt(commands[1])] > maxHealthCapacity){
+                            pirateShip[Integer.parseInt(commands[1])] = maxHealthCapacity;
+                        }
+                }
+                    break;
+                case "Status":
+                    int count = 0;
+                    for (int i = 0; i < pirateShip.length; i++) {
+                        if(pirateShip[i] < maxHealthCapacity * 0.2){
+                            count++;
+                        }
+                    }
+                    System.out.println(count + " sections need repair.");
+                    break;
+            }
+            commands = scanner.nextLine().split("\\s+");
+        }
+        System.out.println("Pirate ship status: " + pirateShipStatus(pirateShip));
+        System.out.println("Warship status: " + warShipStatus(warShip));
+    }
+
+    private static int warShipStatus(int[] warShip) {
+        int status = 0;
+        for (int i = 0; i < warShip.length; i++) {
+            status += warShip[i];
+        }
+        return status;
+    }
+
+    private static int pirateShipStatus(int[] pirateShip) {
+        int status = 0;
+        for (int i = 0; i < pirateShip.length; i++) {
+            status += pirateShip[i];
+        }
+        return status;
+    }
+}
