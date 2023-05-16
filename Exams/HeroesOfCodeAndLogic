@@ -1,0 +1,67 @@
+package FundamentalsFinalExam;
+
+import javax.lang.model.element.Name;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class HeroesOfCodeAndLogic {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = Integer.parseInt(scanner.nextLine());
+        LinkedHashMap<String, int[]> heroes = new LinkedHashMap<>();
+        for (int i = 0; i < n; i++) {
+            String[] hero = scanner.nextLine().split("\\s+");
+            heroes.put(hero[0], new int[]{Math.min(Integer.parseInt(hero[1]), 100), Math.min(Integer.parseInt(hero[2]), 200)});
+        }
+        String[] commands = scanner.nextLine().split(" - ");
+        while(!commands[0].equals("End")){
+            switch (commands[0]){
+                case "CastSpell":
+                    String heroName3 = commands[1];
+                    int magaPoints = Integer.parseInt(commands[2]);
+                    String spellName = commands[3];
+                    if(heroes.get(heroName3)[1] >= magaPoints) {
+                        heroes.put(heroName3, new int[]{heroes.get(heroName3)[0] , heroes.get(heroName3)[1] - magaPoints});
+                        System.out.printf("%s has successfully cast %s and now has %d MP!%n", heroName3, spellName, heroes.get(heroName3)[1]);
+                    }
+                    else
+                        System.out.printf("%s does not have enough MP to cast %s!%n", commands[1], commands[3]);
+                    break;
+                case "TakeDamage":
+                    String heroName = commands[1];
+                    int damage = Integer.parseInt(commands[2]);
+                    String attacker = commands[3];
+                    if(heroes.get(heroName)[0] > damage){
+                        heroes.put(heroName, new int[]{heroes.get(heroName)[0] - damage, heroes.get(heroName)[1]});
+                        System.out.printf("%s was hit for %d HP by %s and now has %d HP left!%n", heroName, damage, attacker, heroes.get(heroName)[0]);
+                    }
+                    else {
+                        System.out.printf("%s has been killed by %s!%n", heroName, attacker);
+                        heroes.remove(heroName);
+                    }
+                    break;
+                case "Recharge":
+                    String heroName1 = commands[1];
+                    int charge = Integer.parseInt(commands[2]);
+                    int maxCharge = 200 - heroes.get(heroName1)[1];
+                    heroes.put(heroName1, new int[]{heroes.get(heroName1)[0], Math.min(heroes.get(heroName1)[1] + charge, 200)});
+                    System.out.printf("%s recharged for %d MP!%n", heroName1, Math.min(charge, maxCharge));
+                    break;
+                case "Heal":
+                    String heroName2 = commands[1];
+                    int heal = Integer.parseInt(commands[2]);
+                    int maxHeal = 100 - heroes.get(heroName2)[0];
+                    heroes.put(heroName2, new int[]{Math.min(heroes.get(heroName2)[0] + heal, 100), heroes.get(heroName2)[1]});
+                    System.out.printf("%s healed for %d HP!%n", heroName2, Math.min(heal, maxHeal));
+                    break;
+            }
+            commands = scanner.nextLine().split(" - ");
+        }
+        for (Map.Entry<String, int[]> entry : heroes.entrySet()){
+            System.out.println(entry.getKey());
+            System.out.println("  HP: " + entry.getValue()[0]);
+            System.out.println("  MP: " + entry.getValue()[1]);
+        }
+    }
+}
