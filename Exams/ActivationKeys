@@ -1,0 +1,43 @@
+package FundamentalsFinalExam;
+
+import java.util.Scanner;
+
+public class ActivationKeys {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        String rawActivationKey = scanner.nextLine();
+        String[] commands = scanner.nextLine().split(">>>");
+        while(!commands[0].equals("Generate")){
+            if(commands[0].equals("Contains")){
+                if(rawActivationKey.contains(commands[1])){
+                    System.out.println(rawActivationKey + " contains " + commands[1]);
+                } else {
+                    System.out.println("Substring not found!");
+                }
+            } else if(commands[0].equals("Flip")){
+                int startIndex = Integer.parseInt(commands[2]);
+                int endIndex = Integer.parseInt(commands[3]);
+
+                switch (commands[1]){
+                    case "Upper":
+                        rawActivationKey = rawActivationKey.substring(0, startIndex) + rawActivationKey.substring(startIndex, endIndex).toUpperCase()
+                                + rawActivationKey.substring(endIndex);
+                        break;
+                    case "Lower":
+                        rawActivationKey = rawActivationKey.substring(0, startIndex) + rawActivationKey.substring(startIndex, endIndex).toLowerCase()
+                                + rawActivationKey.substring(endIndex);
+                        break;
+                }
+                System.out.println(rawActivationKey);
+            } else if(commands[0].equals("Slice")){
+                int startIndex = Integer.parseInt(commands[1]);
+                int endIndex = Integer.parseInt(commands[2]);
+                rawActivationKey = rawActivationKey.substring(0, startIndex) + rawActivationKey.substring(endIndex);
+                System.out.println(rawActivationKey);
+            }
+            commands = scanner.nextLine().split(">>>");
+        }
+        System.out.println("Your activation key is: " + rawActivationKey);
+    }
+}
