@@ -1,0 +1,44 @@
+package FundamentalsMidExam;
+
+import java.util.Scanner;
+
+public class GuineaPig {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        double food = Double.parseDouble(scanner.nextLine());
+        double hay = Double.parseDouble(scanner.nextLine());
+        double cover = Double.parseDouble(scanner.nextLine());
+        double weight = Double.parseDouble(scanner.nextLine());
+        double foodgrams = food * 1000;
+        double foodkg = 0;
+
+        for (int days = 1; days <= 30 ; days++) {
+            if(foodgrams > 300) {
+                foodgrams -= 300;
+                foodkg = foodgrams / 1000;
+
+            } else {
+                System.out.println("Merry must go to the pet store!");
+                return;
+            }
+            if(days % 2 == 0){
+                if(hay >= foodkg * 0.05) {
+                    hay -= 0.05 * foodkg;
+                } else {
+                    System.out.println("Merry must go to the pet store!");
+                    return;
+                }
+            }
+            if(days % 3 == 0){
+                if(cover >= weight / 3) {
+                    cover -= weight / 3;
+                } else {
+                    System.out.println("Merry must go to the pet store!");
+                    return;
+                }
+            }
+        }
+        System.out.printf("Everything is fine! Puppy is happy! Food: %.2f, Hay: %.2f, Cover: %.2f.", foodkg, hay, cover);
+    }
+}
