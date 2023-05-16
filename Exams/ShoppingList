@@ -1,0 +1,51 @@
+package FundamentalsMidExam;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+import java.util.stream.Collectors;
+
+public class ShoppingList {
+    public static void main(String[] args) {
+        Scanner scanner =new Scanner(System.in);
+
+        List<String> groceries = Arrays.stream(scanner.nextLine().split("!+")).collect(Collectors.toList());
+        boolean isIn = false;
+        String [] commands = (scanner.nextLine().split("\\s+"));
+        while(!commands[0].equals("Go")) {
+            if (commands[0].equals("Urgent")) {
+                if (!groceries.contains(commands[1])) {
+                    groceries.add(0, commands[1]);
+                }
+            } else if(commands[0].equals("Unnecessary")){
+                    if (groceries.contains(commands[1])) {
+                        groceries.remove(commands[1]);
+                    }
+            } else if (commands[0].equals("Correct")) {
+//                 if(groceries.contains(commands[1])){
+//                     groceries.remove(commands[1]);
+
+                for (int i = 0; i < groceries.size() ; i++) {
+                    if (groceries.get(i).equals(commands[1])) {
+                        groceries.set(i, commands[2]);
+                        break;
+                    }
+                }
+            } else if(commands[0].equals("Rearrange")){
+                for (int i = 0; i < groceries.size() ; i++) {
+                    if (groceries.get(i).equals(commands[1])) {
+                        groceries.remove(i);
+                        groceries.add(commands[1]);
+                        break;
+                    }
+                }
+            }
+            commands = (scanner.nextLine().split("\\s+"));
+        }
+//        for (int i = 0; i < groceries.size() - 1; i++) {
+//            System.out.print(groceries.get(i) + ", ");
+//        }
+//        System.out.println(groceries.get(groceries.size() - 1));
+
+        System.out.println(String.join(", ",groceries));
+    }
+}
