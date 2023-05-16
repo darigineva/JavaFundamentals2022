@@ -1,0 +1,33 @@
+package FundamentalsExam;
+
+import java.io.PrintStream;
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class TheLift {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int waiting = Integer.parseInt(scanner.nextLine());
+        int[] wagons = Arrays.stream(scanner.nextLine().split("\\s+")).mapToInt(Integer:: parseInt).toArray();
+
+        if(waiting > 0) {
+            for (int i = 0; i < wagons.length; i++) {
+                int seats = wagons[i];
+                while (seats < 4 && waiting > 0) {
+                    seats++;
+                    waiting--;
+                }
+                wagons[i] = seats;
+            }
+        }
+        if (waiting > 0) {
+            System.out.println(String.format("There isn't enough space! %d people in a queue!", waiting));
+        } else if(waiting == 0 && wagons[wagons.length - 1] != 4){
+            System.out.println("The lift has empty spots!");
+        }
+        for (int i = 0; i < wagons.length ; i++) {
+            System.out.print(wagons[i] + " ");
+        }
+    }
+}
