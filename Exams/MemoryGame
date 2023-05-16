@@ -1,0 +1,50 @@
+package FundamentalsExam;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+import java.util.stream.Collectors;
+
+public class MemoryGame {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        List<String> seq = Arrays.stream(scanner.nextLine().split("\\s+")).collect(Collectors.toList());
+        String[] input = scanner.nextLine().split("\\s+");
+        int moveCount = 0;
+        while(!input[0].equals("end")) {
+            moveCount++;
+            int ind0 = Integer.parseInt(input[0]);
+            int ind1 = Integer.parseInt(input[1]);
+            if(ind0 >= 0 && ind0 < seq.size() && ind1 >= 0 && ind1 < seq.size() && ind0 != ind1){
+                if(seq.get(ind0).equals(seq.get((ind1)))){
+                    System.out.println("Congrats! You have found matching elements - " + seq.get(ind0) + "!");
+                    seq.remove(Math.max(ind1, ind0));
+                    seq.remove(Math.min(ind1, ind0));
+                    
+                } else {
+                    System.out.println("Try again!");
+                }
+                if (seq.isEmpty()){
+                    System.out.println("You have won in " + moveCount + " turns!");
+                    return;
+                }
+            }
+            else {
+                int mid = seq.size() / 2;
+//                "-{number of moves until now}a"
+                String in = "-" + moveCount + "a";
+                seq.add(mid, in);
+                seq.add(mid + 1, in);
+                System.out.println("Invalid input! Adding additional elements to the board");
+            }
+            input = scanner.nextLine().split("\\s+");
+        }
+        System.out.println("Sorry you lose :(");
+        for (int i = 0; i < seq.size(); i++) {
+            System.out.print(seq.get(i) + " ");
+        }
+
+
+    }
+}
