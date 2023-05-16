@@ -1,0 +1,37 @@
+package JAVA.JAVA_FUNDAMENTALS.Arrays;
+
+import java.util.Scanner;
+import java.util.*;
+
+public class ReverseArrayOfStrings {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        String [] input = scanner.nextLine().split("\\s+");
+
+//        String[] reversed = new String[input.length];
+//        int revLength = input.length;
+//        for (int i = 0; i < input.length; i++) {
+//            reversed[revLength - 1] = input[i];
+//            revLength--;
+//        }
+//        for (int k = 0; k < input.length; k++) {
+//            System.out.print(reversed[k] + " ");
+//        }
+
+//\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+//        for (int i = 0; i < input.length / 2; i++) {
+//            String swap = input[i];
+//            input[i] = input[input.length - i - 1];
+//            input[input.length - i - 1] = swap;
+//        }
+//            for (int j = 0; j < input.length; j++) {
+//                System.out.print(input[j] + " ");
+//            }
+//\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+        Collections.reverse(Arrays.asList(input));
+        for (int i = 0; i < input.length; i++) {
+            System.out.print(Arrays.asList(input).get(i) + " ");
+        }
+    }
+}
