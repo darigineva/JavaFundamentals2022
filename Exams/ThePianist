@@ -1,0 +1,88 @@
+package finalExamExercise;
+ 
+import java.util.*;
+ 
+public class ThePianist02 {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int numberPieces = Integer.parseInt(in.nextLine());
+        Map<String, List<String>> composerKeyMap = new LinkedHashMap<>();
+ 
+        for (int i = 0; i < numberPieces; i++) {
+            String[] text = in.nextLine().split("\\|");
+ 
+            String piece = text[0];
+            String composer = text[1];
+            String key = text[2];
+ 
+            composerKeyMap.put(piece, new ArrayList<>());
+            composerKeyMap.get(piece).add(composer);
+            composerKeyMap.get(piece).add(key);
+ 
+        }
+ 
+ 
+        String input = in.nextLine();
+ 
+        while (!input.equals("Stop")) {
+ 
+            String[] commandLine = input.split("\\|");
+            String command = commandLine[0];
+            String piece = commandLine[1];
+ 
+ 
+            if (command.equals("Add")) {
+                //Add|{piece}|{composer}|{key}":
+                String composer = commandLine[2];
+                String key = commandLine[3];
+                if (!isPieceInTheCollection(composerKeyMap, piece)) {
+                    composerKeyMap.put(piece, new ArrayList<>());
+                    List<String> composerKey = composerKeyMap.get(piece);
+                    composerKey.add(composer);
+                    composerKey.add(key);
+ 
+                    System.out.printf("%s by %s in %s added to the collection!%n", piece, composer, key);
+                } else {
+                    System.out.printf("%s is already in the collection!%n", piece);
+                }
+ 
+            } else if (command.equals("Remove")) {
+                //"Remove|{piece}":
+                if (isPieceInTheCollection(composerKeyMap, piece)) {
+                    composerKeyMap.remove(piece);
+                    System.out.printf("Successfully removed %s!%n", piece);
+                } else {
+                    System.out.printf("Invalid operation! %s does not exist in the collection.%n", piece);
+                }
+ 
+            } else if (command.equals("ChangeKey")) {
+                //"ChangeKey|{piece}|{new key}":
+                String newKey = commandLine[2];
+                if (isPieceInTheCollection(composerKeyMap, piece)) {
+                    String oldKey = composerKeyMap.get(piece).get(1);
+                    composerKeyMap.get(piece).set(1, newKey);
+                    System.out.printf("Changed the key of %s to %s!%n", piece, newKey);
+                } else {
+                    System.out.printf("Invalid operation! %s does not exist in the collection.%n", piece);
+                }
+ 
+ 
+            }
+            input = in.nextLine();
+        }
+ 
+//"{Piece} -> Composer: {composer}, Key: {key}"
+        for (Map.Entry<String, List<String>> entry : composerKeyMap.entrySet()) {
+            System.out.printf("%s -> Composer: %s, Key: %s\n", entry.getKey(), entry.getValue().get(0), entry.getValue().get(1));
+        }
+ 
+ 
+    }
+ 
+    public static boolean isPieceInTheCollection(Map<String, List<String>> pieceMap, String piece) {
+        if (pieceMap.containsKey(piece)) {
+            return true;
+        }
+        return false;
+    }
+}
