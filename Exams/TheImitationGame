@@ -1,0 +1,43 @@
+package FundamentalsExam;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class TheImitationGame {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        List<String> code = Arrays.stream(scanner.nextLine().split("")).collect(Collectors.toList());
+//        Deque<String> code = Arrays.stream(scanner.nextLine().split("")).collect(Collectors.toCollection(ArrayDeque::new));
+
+        String[] commands = scanner.nextLine().split("\\|");
+        while(!commands[0].equals("Decode")){
+
+            if(commands[0].equals("Move")){
+                int n = Integer.parseInt(commands[1]);
+                for (int i = 0; i < n; i++) {
+                    code.add(code.get(0));
+                    code.remove(0);
+                }
+            } else if(commands[0].equals("Insert")){
+                int n = Integer.parseInt(commands[1]);
+                for (int i = commands[2].length() - 1; i >= 0; i--) {
+                code.add(n, commands[2].charAt(i) + "");
+                }
+            } else if(commands[0].equals("ChangeAll")){
+
+                for (int i = 0; i < code.size(); i++) {
+                    if(code.get(i).equals(commands[1])){
+                        code.remove(i);
+                        code.add(i, commands[2]);
+                    }
+
+                }
+            }
+            commands = scanner.nextLine().split("\\|");
+        }
+        System.out.print("The decrypted message is: ");
+        for (int i = 0; i < code.size() ; i++) {
+        System.out.print(code.get(i));
+        }
+    }
+}
