@@ -1,0 +1,28 @@
+package FundamentalsExam;
+
+import java.util.Scanner;
+
+public class BonusScoringSystem {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int studentsNum = Integer.parseInt(scanner.nextLine());
+        int lecturesNum = Integer.parseInt(scanner.nextLine());
+        int additionalBonus = Integer.parseInt(scanner.nextLine());
+        double totalBonus = 0;
+        double maxBonus = 0;
+        int bestAttend = 0;
+
+        for (int i = 0; i < studentsNum; i++) {
+            int attendances = Integer.parseInt(scanner.nextLine());
+            totalBonus = 1.0 * attendances / lecturesNum * (5 + additionalBonus);
+            if (totalBonus > maxBonus) {
+                maxBonus = totalBonus;
+                bestAttend = attendances;
+            }
+        }
+            System.out.printf("Max Bonus: %.0f.", Math.ceil(maxBonus));
+        System.out.println();
+            System.out.println("The student has attended " + bestAttend + " lectures.");
+    }
+}
