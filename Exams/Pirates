@@ -1,0 +1,66 @@
+package FundamentalsFinalExam;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class Pirates {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        Map<String, int[]> cityMap = new LinkedHashMap<>();
+        String[] command = scanner.nextLine().split("\\|+");
+        while (!command[0].equals("Sail")){
+            String city = command[0];
+            int population = Integer.parseInt(command[1]);
+            int gold = Integer.parseInt(command[2]);
+            if(cityMap.containsKey(city)){
+                cityMap.get(city)[0] += population;
+                cityMap.get(city)[1] += gold;
+            } else {
+                int[] data = new int[]{population, gold};
+                cityMap.put(city, data);
+            }
+            command = scanner.nextLine().split("\\|+");
+        }
+        String[] events = scanner.nextLine().split("=>");
+        while(!events[0].contains("End")){
+//            Plunder=>{town}=>{people}=>{gold}"
+            String city = events[1];
+                    switch (events[0]){
+                        case "Plunder":
+                            int people = Integer.parseInt(events[2]);
+                            int gold = Integer.parseInt(events[3]);
+
+                            cityMap.get(city)[0] -= people;
+                            cityMap.get(city)[1] -= gold;
+                            System.out.println(city + " plundered! " + gold + " gold stolen, " + people + " citizens killed.");
+
+                            if(cityMap.get(city)[0] == 0 || cityMap.get(city)[1] == 0){
+                                System.out.println(city + " has been wiped off the map!");
+                                cityMap.remove(city);
+                            }
+                            break;
+                        case "Prosper":
+                            gold = Integer.parseInt(events[2]);
+
+                            if(gold >= 0){
+                                cityMap.get(city)[1] += gold;
+                                System.out.println(gold + " gold added to the city treasury. " + city + " now has " + cityMap.get(city)[1] + " gold.");
+                            }else {
+                                System.out.println("Gold added cannot be a negative number!" );
+                            }
+                            break;
+                    }
+            events = scanner.nextLine().split("=>");
+        }
+        if(!cityMap.isEmpty()){
+            System.out.println("Ahoy, Captain! There are " + cityMap.size() + " wealthy settlements to go to:");
+            for (Map.Entry<String, int[]> entry : cityMap.entrySet()) {
+                System.out.printf("%s -> Population: %d citizens, Gold: %d kg\n", entry.getKey(), entry.getValue()[0], entry.getValue()[1]);
+            }
+        } else {
+            System.out.println("Ahoy, Captain! All targets have been plundered and destroyed!");
+        }
+    }
+}
