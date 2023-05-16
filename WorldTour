@@ -1,0 +1,61 @@
+package FundamentalsExam;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+import java.util.stream.Collectors;
+
+public class WorldTour {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        List<String> stops = Arrays.stream(scanner.nextLine().split("")).collect(Collectors.toList());
+        String[] commands = scanner.nextLine().split("\\s+");
+        while (!commands[0].equals("Travel")){
+            if(commands[0].charAt(0) == 'S'){
+                String[] comSw = commands[0].split(":");
+                String old = comSw[1];
+                for (int i = 0; i < stops.size() - old.length(); i++) {
+                    List <String> sub = stops.subList(i, i + old.length());
+                    String subString = sub + "";
+                    subString = subString.replace(", ", "");
+                    subString = subString.replace("[", "");
+                    subString = subString.replace("]", "");
+                    if(subString.equals(comSw[1])){
+                        for (int j = 0; j < comSw[1].length(); j++) {
+                            stops.remove(i);
+                        }
+                        for (int j = comSw[2].length() - 1; j >= 0; j--) {
+                            stops.add(i, comSw[2].charAt(j) + "");
+                        }
+                        break;
+                    }
+                }
+            }
+            else if(commands[0].equals("Add")){
+                String[] comAdd = commands[1].split("\\:");
+                if (Integer.parseInt(comAdd[1]) >= 0 && Integer.parseInt(comAdd[1]) < stops.size()){
+                    for (int i = comAdd[2].length() - 1; i >= 0;  i--) {
+                    stops.add(Integer.parseInt(comAdd[1]), String.valueOf(comAdd[2].charAt(i)));
+                    }
+                }
+            } else {
+                String[] comRem = commands[1].split("\\:");
+                if (Integer.parseInt(comRem[1]) >= 0 && Integer.parseInt(comRem[1]) < stops.size()
+                && Integer.parseInt(comRem[2]) >= 0 && Integer.parseInt(comRem[2]) < stops.size()){
+                int n = Integer.parseInt(comRem[2]) - Integer.parseInt(comRem[1]);
+                for (int i = 0; i <= n; i++) {
+                    stops.remove(Integer.parseInt(comRem[1]));
+                }
+                }
+            }
+            for (int i = 0; i < stops.size(); i++) {
+                System.out.print(stops.get(i));
+            }
+            System.out.println();
+            commands = scanner.nextLine().split("\\s+");
+        }
+        System.out.print("Ready for world tour! Planned stops: ");
+        for (int i = 0; i < stops.size(); i++) {
+            System.out.print(stops.get(i));
+        }
+    }
+}
