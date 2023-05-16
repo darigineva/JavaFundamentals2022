@@ -1,0 +1,59 @@
+package FundamentalsExam;
+
+import java.util.Scanner;
+
+public class MuOnline {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String[] dungeon = scanner.nextLine().split("\\|");
+        int health = 100;
+        int bitcoins = 0;
+        int rooms = 0;
+        boolean dead = false;
+        boolean defeated = false;
+        for (int i = 0; i < dungeon.length; i++) {
+            rooms++;
+            String[] element = dungeon[i].split("\\s+");
+            String command = element[0];
+            int points = Integer.parseInt(element[1]);
+            switch (command){
+                case "potion":
+                    System.out.printf("You healed for %d hp.%n", Math.min(points, 100 - health));
+                    health += points;
+                    if(health > 100){
+                        health = 100;
+                    }
+                    System.out.printf("Current health: %d hp.%n", health);
+                    break;
+                case "chest":
+                    bitcoins += points;
+                    System.out.printf("You found %d bitcoins.%n", points);
+                    break;
+                default:
+                    if(points < health){
+                        health -= points;
+                        System.out.printf("You slayed %s.%n", command);
+                    }
+                    else{
+                        System.out.printf("You died! Killed by %s.%n", command);
+                        dead = true;
+                    }
+                    break;
+            }
+            if (dead){
+                break;
+            }
+            if(i == dungeon.length - 1){
+                defeated = true;
+            }
+        }
+        if(!defeated){
+            System.out.printf("Best room: %d", rooms);
+        }
+        else{
+            System.out.println("You've made it!");
+            System.out.printf("Bitcoins: %d%n", bitcoins);
+            System.out.printf("Health: %d", health);
+        }
+    }
+}
