@@ -1,0 +1,29 @@
+package JAVA.Algorithms.RecursionAndBacktracking;
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public abstract class RecursiveArraySum {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int[] arr = Arrays.stream(scanner.nextLine().split("\\s+")).mapToInt(Integer::parseInt).toArray();
+
+        int sum = 0;
+        sum = sumNumbers(arr, 0);
+        //тръгваме от 0, за обратен ред тръгваме от arr.length - 1
+        System.out.println(sum);
+    }
+    public static int sumNumbers(int[] numbers, int index) {
+        if(index >= numbers.length) {
+//            започвам от 0 и спирам, когато условието спре да бъде вярно
+//            за обратен ред спираме, когато index < 0
+//            дъно на ракурсията
+//            при numbers.length - 1 => return 1 връща последната стойност;
+            return 0;
+        }
+            return numbers[index] + sumNumbers(numbers, index + 1);
+//        ще върне numbers от текущия индекс, събран с резултата на същата ракурсия, но със следващата стойност
+//        numbers се движи със стъпка index + 1; за обратен ред стъпката е -1
+    }
+}
