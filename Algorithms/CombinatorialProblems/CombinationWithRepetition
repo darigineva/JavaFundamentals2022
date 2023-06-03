@@ -1,0 +1,39 @@
+package JAVA.Algorithms;
+
+import java.util.Arrays;
+import java.util.Scanner;
+import java.util.stream.Collectors;
+
+public class CombinationWithRepetition {
+    public static int n;
+    public static int k;
+    public static int[] arr;
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        n = Integer.parseInt(scanner.nextLine());
+        k = Integer.parseInt(scanner.nextLine());
+        arr = new int[k];
+
+        combinationWithRepetition(0, 1);
+    }
+
+    private static void combinationWithRepetition(int index, int start) {
+        if (index == k) {
+            System.out.println(Arrays.stream(arr).mapToObj(String::valueOf).collect(Collectors.joining(" ")));
+            return;
+        }
+        for (int i = start; i <= n; i++) {
+            arr[index] = i;
+            combinationWithRepetition(index + 1, i);
+        }
+    }
+}
+//        1 1
+//        1 2
+//        1 3
+//        2 2
+//        2 3
+//        3 3
+
