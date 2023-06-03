@@ -1,0 +1,47 @@
+package JAVA.Algorithms;
+
+import java.util.Arrays;
+import java.util.Scanner;
+import java.util.stream.Collectors;
+
+public class PermutationWithoutRepetition {
+    public static int n;
+    public static int[] arr;
+    public static boolean[] used;
+    static int[] elements;
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        elements = Arrays.stream(scanner.nextLine().split(" "))
+                .mapToInt(Integer::parseInt).toArray();
+        n = elements.length;
+        arr = new int[n];
+        used = new boolean[n];
+
+        permutationWithoutRepetition(0);
+    }
+
+    private static void permutationWithoutRepetition(int index) {
+        if (index == n) {
+            System.out.println(Arrays.stream(arr)
+                    .mapToObj(String::valueOf)
+                    .collect(Collectors.joining(" ")));
+            return;
+        }
+        for (int i = 0; i < n; i++) {
+            if(!used[i]) {
+                used[i] = true;
+                arr[index] = elements[i];
+                permutationWithoutRepetition(index + 1);
+                used[i] = false;
+            }
+        }
+    }
+}
+//        1 2 3
+//        1 3 2
+//        2 1 3
+//        2 3 1
+//        3 1 2
+//        3 2 1
+
